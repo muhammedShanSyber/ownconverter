@@ -1,5 +1,6 @@
 import { ipcRenderer, contextBridge } from 'electron'
 
+
 // --------- Expose some API to the Renderer process ---------
 contextBridge.exposeInMainWorld('ipcRenderer', {
   on(...args: Parameters<typeof ipcRenderer.on>) {
@@ -24,4 +25,8 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
 })
 contextBridge.exposeInMainWorld('electron', {
   selectFile: () => ipcRenderer.invoke('open-file'),
+  convertFile: (filePath, conversionType) => ipcRenderer.invoke('convert-file', filePath, conversionType),
+    downloadFile: (filePath) => ipcRenderer.invoke('download-file', filePath),
 });
+
+
